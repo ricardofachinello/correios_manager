@@ -19,7 +19,7 @@ class CreateEncomendasTable extends Migration
             $table->string('codigoRastreio',13)->nullable(false);
             $table->string('nomeEncomenda',40)->nullable(false);
             $table->date('dataInclusao')->nullable(false);
-            $table->string('historicoLocal',2048);
+            $table->string('emailContato')->nullable(false);
             $table->timestamps();
             $table->unique('codigoRastreio');
             $table->foreign('idusers')->references('id')->on('users');

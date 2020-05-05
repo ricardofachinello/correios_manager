@@ -210,14 +210,14 @@ return [
     'menu' => [
         ['header' => 'Menu'],
         [
-            'text' => 'Encomendas',
-            'url'  => '/encomendas',
-            'icon' => 'fas fa-fw fa-user',
+            'text' => 'Nova Encomenda',
+            'url'  => '/encomendas/create',
+            'icon' => 'fas fa-plus',
         ],
         [
             'text' => 'Another one',
-            'url'  => '/encomendas',
-            'icon' => 'fas fa-fw fa-user',
+            'url'  => '/encomendas/nada',
+            'icon' => 'fas fa-user',
         ],
     ],
 

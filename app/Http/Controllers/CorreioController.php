@@ -3,12 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\User;
+use App\Encomenda;
 
 class CorreioController extends Controller
 {
     public function index(){
-        $usuarios = User::All();
-        return view('usuarios', ['usuarios'=>$usuarios]);
+        $encomendas = Encomenda::All();
+        return view('encomendas', ['encomendas'=>$encomendas]);
     }
 }

@@ -13,8 +13,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', 'CorreioController@index');
+
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('encomendas', 'EncomendasController@index');
+Route::get('encomendas/create', 'EncomendasController@create');
+Route::post('encomendas/store', 'EncomendasController@store');
+
+
+Route::get('/', function () {return view('home');});
+Route::get('home', function () {return redirect('encomendas');});

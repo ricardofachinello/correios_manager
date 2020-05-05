@@ -6,5 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Encomenda extends Model
 {
-    protected $table = "encomenda";
+    protected $table = "Encomenda";
+    protected $fillable = ['idusers', 'codigoRastreio', 'nomeEncomenda', 'dataInclusao', 'emailContato'];
 }

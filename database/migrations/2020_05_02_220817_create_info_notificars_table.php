@@ -15,7 +15,7 @@ class CreateInfoNotificarsTable extends Migration
     {
         Schema::create('infoNotificar', function (Blueprint $table) {
             $table->bigInteger('id');
-            $table->string('emailContato',40);
+            $table->string('historicoLocal',2048);
             $table->timestamps();
             $table->primary('id');
             $table->foreign('id')->references('id')->on('Encomenda');
