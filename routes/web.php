@@ -16,10 +16,14 @@ use Illuminate\Support\Facades\Route;
 
 
 Auth::routes();
-
-Route::get('encomendas', 'EncomendasController@index');
-Route::get('encomendas/create', 'EncomendasController@create');
-Route::post('encomendas/store', 'EncomendasController@store');
+Route::group(['prefix'=>'encomendas', 'where'=>['id'=>'[0-9]']], function () {
+    Route::get('',             ['as'=>'encomendas',         'uses'=>'EncomendasController@index'  ]);
+    Route::get('create',       ['as'=>'encomendas.create',  'uses'=>'EncomendasController@create' ]);
+    Route::post('store',       ['as'=>'encomendas.store',   'uses'=>'EncomendasController@store'  ]);
+    Route::get('{id}/destroy', ['as'=>'encomendas.destroy', 'uses'=>'EncomendasController@destroy']);
+    Route::get('{id}/edit',    ['as'=>'encomendas.edit',    'uses'=>'EncomendasController@edit'   ]);
+    Route::put('{id}/update',  ['as'=>'encomendas.update',  'uses'=>'EncomendasController@update' ]);
+});
 
 
 Route::get('/', function () {return view('home');});

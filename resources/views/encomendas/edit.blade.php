@@ -1,7 +1,7 @@
 @extends('adminlte::page')
 
 @section('content')
-  <h3>Adicionar Nova Encomenda</h3>
+  <h3>Editar Encomenda: {{ $encomenda->nomeEncomenda }}</h3>
 
   @if($errors->any())
     <ul class="alert alert-danger">
@@ -11,16 +11,16 @@
     </ul>
   @endif
 
-  {!! Form::open(['route'=>'encomendas.store']) !!}
+  {!! Form::open(['route'=>["encomendas.update", 'id'=>$encomenda->id], 'method'=>'put']) !!}
     <div class="form-group">
         {!! Form::label('nomeEncomenda', 'Título: ') !!}
-        {!! Form::text('nomeEncomenda', null, ['class'=>'form-control', 'required']) !!}
+        {!! Form::text('nomeEncomenda', $encomenda->nomeEncomenda, ['class'=>'form-control', 'required']) !!}
 
         {!! Form::label('codigoRastreio', 'Código de Rastreio: ') !!}
-        {!! Form::text('codigoRastreio', null, ['class'=>'form-control', 'required']) !!}
+        {!! Form::text('codigoRastreio', $encomenda->codigoRastreio, ['class'=>'form-control', 'required']) !!}
         
         {!! Form::label('emailContato', 'E-mail de contato: ') !!}
-        {!! Form::text('emailContato', null, ['class'=>'form-control', 'required']) !!}
+        {!! Form::text('emailContato', $encomenda->emailContato, ['class'=>'form-control', 'required']) !!}
     </div>
 
     <div hidden class="form-group">
@@ -28,11 +28,11 @@
         {!! Form::text('idusers', auth()->user()->id, ['class'=>'form-control', 'required', 'readonly']) !!}
 
         {!! Form::label('dataInclusao', 'dataInclusao') !!}
-        {!! Form::text('dataInclusao', Carbon\Carbon::now()->format('d/m/Y'), ['class'=>'form-control', 'required', 'readonly']) !!}
+        {!! Form::text('dataInclusao', $encomenda->dataInclusao, ['class'=>'form-control', 'required', 'readonly']) !!}
     </div>
 
     <div class="form-group">
-        {!! Form::submit('Salvar', ['class'=>'btn btn-primary']) !!}
+        {!! Form::submit('Editar', ['class'=>'btn btn-primary']) !!}
         {!! Form::submit('Limpar', ['class'=>'btn btn-default']) !!}
     </div>
   {!! Form::close() !!}  
