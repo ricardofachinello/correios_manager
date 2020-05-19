@@ -20,23 +20,19 @@ class DatabaseTest extends TestCase
             'name' => 'Ricardo Fachinello',
         ]);
 
-        DB::table('Encomenda')->insert(
-            ['idusers' => 1,
+        $data = ['idusers' => 1,
             'codigoRastreio' => 'zz123456789zz',
             'nomeEncomenda' => 'Teste',
             'dataInclusao' => '2020-01-01',
             'emailContato' => 'teste@outroteste.com'
-        ]);
+        ];
 
-        $this->assertDatabaseHas('Encomenda', [
-            'idusers' => 1,
-            'codigoRastreio' => 'zz123456789zz',
-            'nomeEncomenda' => 'Teste',
-            'dataInclusao' => '2020-01-01',
-            'emailContato' => 'teste@outroteste.com'
-        ]);
+        DB::table('Encomenda')->insert($data);
 
+        $this->assertDatabaseHas('Encomenda', $data);
 
         DB::table('Encomenda')->where('codigoRastreio', 'zz123456789zz')->delete();
+    
+        
     }
 }
