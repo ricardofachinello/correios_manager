@@ -14,7 +14,7 @@ class ExampleTest extends DuskTestCase
      *
      * @return void
      */
-    public function testBasicExample()
+    public function testUserRegistration()
     {
         $this->browse(function (Browser $browser) {
             $browser->visit('/register')

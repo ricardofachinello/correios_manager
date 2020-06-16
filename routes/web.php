@@ -13,6 +13,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+/*
+TO DO
+Rotas da API
+
+*/
 
 
 Auth::routes();
