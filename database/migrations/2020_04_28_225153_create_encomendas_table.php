@@ -20,9 +20,11 @@ class CreateEncomendasTable extends Migration
             $table->string('nomeEncomenda',40)->nullable(false);
             $table->date('dataInclusao')->nullable(false);
             $table->string('emailContato')->nullable(false);
+            $table->bigInteger('grupoid');
             $table->timestamps();
             $table->unique('codigoRastreio');
             $table->foreign('idusers')->references('id')->on('users');
+            $table->foreign('grupoid')->references('id')->on('grupos');
         });
     }
 

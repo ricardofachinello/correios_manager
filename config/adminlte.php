@@ -215,8 +215,8 @@ return [
             'icon' => 'fas fa-plus',
         ],
         [
-            'text' => 'Another one',
-            'url'  => '/encomendas/nada',
+            'text' => 'Grupos',
+            'url'  => '/grupos',
             'icon' => 'fas fa-user',
         ],
     ],

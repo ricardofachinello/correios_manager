@@ -21,6 +21,11 @@
         
         {!! Form::label('emailContato', 'E-mail de contato: ') !!}
         {!! Form::text('emailContato', null, ['class'=>'form-control', 'required']) !!}
+
+        {!! Form::label('grupoid', 'Grupo: ') !!}
+        {!! Form::select('grupoid',
+                          \App\Grupo::where('idUser', '=', auth()->user()->id)->pluck('nome','id')->toArray(),
+                          \App\Grupo::where('idUser', '=', auth()->user()->id)->where('nome', '=', 'Padrão')->pluck('nome','id')->toArray(), ['class'=>'form-control', 'required']) !!}
     </div>
 
     <div hidden class="form-group">
@@ -28,12 +33,12 @@
         {!! Form::text('idusers', auth()->user()->id, ['class'=>'form-control', 'required', 'readonly']) !!}
 
         {!! Form::label('dataInclusao', 'dataInclusao') !!}
-        {!! Form::text('dataInclusao', Carbon\Carbon::now()->format('d/m/Y'), ['class'=>'form-control', 'required', 'readonly']) !!}
+        {!! Form::text('dataInclusao', Carbon\Carbon::now(), ['class'=>'form-control', 'required', 'readonly']) !!}
     </div>
 
     <div class="form-group">
         {!! Form::submit('Salvar', ['class'=>'btn btn-primary']) !!}
-        {!! Form::submit('Limpar', ['class'=>'btn btn-default']) !!}
+        {!! Form::reset('Limpar', ['class'=>'btn btn-default']) !!}
     </div>
   {!! Form::close() !!}  
 @stop

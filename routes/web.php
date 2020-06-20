@@ -21,15 +21,24 @@ Rotas da API
 
 
 Auth::routes();
-Route::group(['prefix'=>'encomendas', 'where'=>['id'=>'[0-9]']], function () {
-    Route::get('',             ['as'=>'encomendas',         'uses'=>'EncomendasController@index'  ]);
-    Route::get('create',       ['as'=>'encomendas.create',  'uses'=>'EncomendasController@create' ]);
-    Route::post('store',       ['as'=>'encomendas.store',   'uses'=>'EncomendasController@store'  ]);
-    Route::get('{id}/destroy', ['as'=>'encomendas.destroy', 'uses'=>'EncomendasController@destroy']);
-    Route::get('{id}/edit',    ['as'=>'encomendas.edit',    'uses'=>'EncomendasController@edit'   ]);
-    Route::put('{id}/update',  ['as'=>'encomendas.update',  'uses'=>'EncomendasController@update' ]);
+Route::group(['middleware'=>'auth'], function() {
+    Route::group(['prefix'=>'encomendas', 'where'=>['id'=>'[0-9]+']], function () {
+        Route::get('',             ['as'=>'encomendas',         'uses'=>'EncomendasController@index'  ]);
+        Route::get('create',       ['as'=>'encomendas.create',  'uses'=>'EncomendasController@create' ]);
+        Route::post('store',       ['as'=>'encomendas.store',   'uses'=>'EncomendasController@store'  ]);
+        Route::get('{id}/destroy', ['as'=>'encomendas.destroy', 'uses'=>'EncomendasController@destroy']);
+        Route::get('{id}/edit',    ['as'=>'encomendas.edit',    'uses'=>'EncomendasController@edit'   ]);
+        Route::put('{id}/update',  ['as'=>'encomendas.update',  'uses'=>'EncomendasController@update' ]);
+    });
+    Route::group(['prefix'=>'grupos', 'where'=>['id'=>'[0-9]+']], function () {
+        Route::get('',             ['as'=>'grupos',         'uses'=>'GruposController@index'  ]);
+        Route::get('create',       ['as'=>'grupos.create',  'uses'=>'GruposController@create' ]);
+        Route::post('store',       ['as'=>'grupos.store',   'uses'=>'GruposController@store'  ]);
+        Route::get('{id}/destroy', ['as'=>'grupos.destroy', 'uses'=>'GruposController@destroy']);
+        Route::get('{id}/edit',    ['as'=>'grupos.edit',    'uses'=>'GruposController@edit'   ]);
+        Route::put('{id}/update',  ['as'=>'grupos.update',  'uses'=>'GruposController@update' ]);
+    });
 });
-
 
 Route::get('/', function () {return view('home');});
 Route::get('home', function () {return redirect('encomendas');});

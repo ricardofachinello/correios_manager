@@ -4,18 +4,27 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Encomenda;
+use App\Grupo;
 use Auth;
 use App\Http\Requests\EncomendaRequest;
 
 class EncomendasController extends Controller
 {
     public function index(){
-        if(Auth::guest()){
-            return view('encomendas.noUser');
+        if(Grupo::where('idUser', '=', auth()->user()->id)->first()==null){
+            $grupo = new Grupo();
+            $grupo->idUser=auth()->user()->id;
+            $grupo->nome='Padrão';
+            $grupo->descricao='Grupo padrão';
+            $grupo->save();
         }
+
+        $gruponome = Grupo::join('Encomenda', 'Encomenda.grupoid', '=', 'grupos.id')->where('grupos.idUser', '=', auth()->user()->id)->select('grupos.nome')->get();
+
         $encomendas = Encomenda::join('users', 'users.id', '=', 'Encomenda.idusers') 
         ->where('Encomenda.idusers', auth()->user()->id)
-        ->select('Encomenda.id as id', 'Encomenda.nomeEncomenda as nomeEncomenda', 'Encomenda.codigoRastreio as codigoRastreio', 'Encomenda.dataInclusao as dataInclusao', 'Encomenda.emailContato as emailContato')->orderBy('Encomenda.dataInclusao', 'desc')->paginate(8); /* ->pagination(10); */
+        ->select('Encomenda.id as id', 'Encomenda.nomeEncomenda as nomeEncomenda', 'Encomenda.codigoRastreio as codigoRastreio', 'Encomenda.dataInclusao as dataInclusao', 'Encomenda.emailContato as emailContato', 'Encomenda.grupoid as grupoid')->orderBy('Encomenda.dataInclusao', 'desc')->paginate(8); /* ->pagination(10); */
+        
         return view('encomendas.index', ['encomendas'=>$encomendas]);
     }
 
