@@ -42,6 +42,10 @@ class MailCron extends Command
      */
     public function handle()
     {
+        /**
+         * TO DO
+         * Se a encomenda já está entregue, não atualizar o status
+         */
         $encomendas = Encomenda::all();
         foreach($encomendas as $encomenda){
             sleep(5);
