@@ -1,10 +1,13 @@
 <?php
 
 namespace App\Console\Commands;
+use App\Encomenda;
 
 use Illuminate\Console\Command;
+use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
 
 class MailCron extends Command
 {
@@ -39,8 +42,16 @@ class MailCron extends Command
      */
     public function handle()
     {
-        $output = new \Symfony\Component\Console\Output\ConsoleOutput();
-        $output->writeln("<info>Error message</info>");
+        $encomendas = Encomenda::all();
+        foreach($encomendas as $encomenda){
+            sleep(5);
+            $status = Http::get('https://api.linketrack.com/track/json?user=teste&token=1abcd00b2731640e886fb41a8a9671ad1434c599dbaa0a0de9a5aa619f29a83f&codigo='.$encomenda->codigoRastreio)
+            ->json();
+            if($status){
+                $encomenda->eventos = $status;
+                $encomenda->save();
+            }
+        }
 
     }
 }

@@ -4,14 +4,17 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Grupo;
+use App\Encomenda;
 use App\Http\Requests\GrupoRequest;
+
+use Illuminate\Support\Facades\Http;
 
 class GruposController extends Controller
 {
     public function index(){
         $grupos = Grupo::join('users', 'users.id', '=', 'grupos.idUser')->where('grupos.idUser', auth()->user()->id)
         ->select('grupos.id as id', 'grupos.nome as nome', 'grupos.descricao as descricao')->orderBy('nome')->paginate(8);
-
+        
         return view('grupos.index', ['grupos'=>$grupos]);
     }
 

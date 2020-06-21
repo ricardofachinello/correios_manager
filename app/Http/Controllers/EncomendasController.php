@@ -7,6 +7,7 @@ use App\Encomenda;
 use App\Grupo;
 use Auth;
 use App\Http\Requests\EncomendaRequest;
+use Illuminate\Support\Facades\Http;
 
 class EncomendasController extends Controller
 {
@@ -23,8 +24,8 @@ class EncomendasController extends Controller
 
         $encomendas = Encomenda::join('users', 'users.id', '=', 'Encomenda.idusers') 
         ->where('Encomenda.idusers', auth()->user()->id)
-        ->select('Encomenda.id as id', 'Encomenda.nomeEncomenda as nomeEncomenda', 'Encomenda.codigoRastreio as codigoRastreio', 'Encomenda.dataInclusao as dataInclusao', 'Encomenda.emailContato as emailContato', 'Encomenda.grupoid as grupoid')->orderBy('Encomenda.dataInclusao', 'desc')->paginate(8); /* ->pagination(10); */
-        
+        ->select('Encomenda.id as id', 'Encomenda.nomeEncomenda as nomeEncomenda', 'Encomenda.codigoRastreio as codigoRastreio', 'Encomenda.dataInclusao as dataInclusao', 'Encomenda.emailContato as emailContato', 'Encomenda.grupoid as grupoid', 'Encomenda.eventos as eventos')->orderBy('Encomenda.dataInclusao', 'desc')->orderBy('Encomenda.nomeEncomenda', 'asc')->paginate(8); /* ->pagination(10); */
+
         return view('encomendas.index', ['encomendas'=>$encomendas]);
     }
 
@@ -33,6 +34,7 @@ class EncomendasController extends Controller
     }
 
     public function store(EncomendaRequest $request){
+
         $novaEncomenda = $request->all();
         Encomenda::create($novaEncomenda);
 

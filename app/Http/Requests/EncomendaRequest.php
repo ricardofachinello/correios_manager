@@ -28,6 +28,7 @@ class EncomendaRequest extends FormRequest
             'codigoRastreio' => 'required|size:13',
             'emailContato' => 'required|max:255',
             'idusers' => 'integer',
+            'eventos' => 'json',
             'grupoid' => 'integer',
             'dataInclusao' => 'date',
         ];

@@ -210,6 +210,11 @@ return [
     'menu' => [
         ['header' => 'Menu'],
         [
+            'text' => 'Encomendas',
+            'url'  => '/encomendas',
+            'icon' => 'fas fa-truck',
+        ],
+        [
             'text' => 'Nova Encomenda',
             'url'  => '/encomendas/create',
             'icon' => 'fas fa-plus',
@@ -218,6 +223,11 @@ return [
             'text' => 'Grupos',
             'url'  => '/grupos',
             'icon' => 'fas fa-user',
+        ],
+        [
+            'text' => 'Novo Grupo',
+            'url'  => '/grupos/create',
+            'icon' => 'fas fa-plus',
         ],
     ],
 

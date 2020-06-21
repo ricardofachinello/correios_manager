@@ -6,15 +6,21 @@
     <thead>
       <th>Título</th>
       <th>Código de Rastreio</th>
+      <th>Status</th>
       <th>Grupo</th>
       <th>Data de Inclusão</th>
       <th>Ações</th>
     </thead>
     <tbody>
-      @foreach($encomendas as $encomenda)	
+      @foreach($encomendas as $encomenda)
         <tr>
 		      <td>{{ $encomenda->nomeEncomenda }}</td>
           <td>{{ $encomenda->codigoRastreio }}</td>
+          @if(json_decode($encomenda->eventos)->eventos)
+          <td>{{ json_decode($encomenda->eventos)->eventos[0]->status }}</td>
+          @else
+          <td>Objeto não postado</td>
+          @endif
           <td>
           {{\App\Grupo::where('id', '=', $encomenda->grupoid)->where('idUser', '=', auth()->user()->id)->pluck('nome')->first()}}
           </td>
