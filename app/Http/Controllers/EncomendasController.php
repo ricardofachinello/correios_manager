@@ -11,7 +11,8 @@ use Illuminate\Support\Facades\Http;
 
 class EncomendasController extends Controller
 {
-    public function index(){
+    public function index(Request $filtro){
+        
         if(Grupo::where('idUser', '=', auth()->user()->id)->first()==null){
             $grupo = new Grupo();
             $grupo->idUser=auth()->user()->id;
@@ -19,12 +20,23 @@ class EncomendasController extends Controller
             $grupo->descricao='Grupo padrão';
             $grupo->save();
         }
+        
+        $filtragem = $filtro->get('desc_filtro');
+        if($filtragem == NULL){
+            $gruponome = Grupo::join('Encomenda', 'Encomenda.grupoid', '=', 'grupos.id')->where('grupos.idUser', '=', auth()->user()->id)->select('grupos.nome')->get();
+            $encomendas = Encomenda::join('users', 'users.id', '=', 'Encomenda.idusers') 
+                ->where('Encomenda.idusers', auth()->user()->id)
+                ->select('Encomenda.id as id', 'Encomenda.nomeEncomenda as nomeEncomenda', 'Encomenda.codigoRastreio as codigoRastreio', 'Encomenda.dataInclusao as dataInclusao', 'Encomenda.emailContato as emailContato', 'Encomenda.grupoid as grupoid', 'Encomenda.eventos as eventos')->orderBy('Encomenda.dataInclusao', 'desc')->orderBy('Encomenda.nomeEncomenda', 'asc')->paginate(8); /* ->pagination(10); */
+        }else{
+            $gruponome = Grupo::join('Encomenda', 'Encomenda.grupoid', '=', 'grupos.id')->where('grupos.idUser', '=', auth()->user()->id)->select('grupos.nome')->get();
+            $encomendas = Encomenda::join('users', 'users.id', '=', 'Encomenda.idusers') 
+                ->where('Encomenda.idusers', auth()->user()->id)
+                ->select('Encomenda.id as id', 'Encomenda.nomeEncomenda as nomeEncomenda', 'Encomenda.codigoRastreio as codigoRastreio', 'Encomenda.dataInclusao as dataInclusao', 'Encomenda.emailContato as emailContato', 'Encomenda.grupoid as grupoid', 'Encomenda.eventos as eventos')->orderBy('Encomenda.dataInclusao', 'desc')->orderBy('Encomenda.nomeEncomenda', 'asc')
+                ->where('nomeEncomenda', 'like', '%'.$filtragem.'%')->orWhere('codigoRastreio', 'like', '%'.$filtragem.'%')->paginate(8); /* ->pagination(10); */
+            
+        }
 
-        $gruponome = Grupo::join('Encomenda', 'Encomenda.grupoid', '=', 'grupos.id')->where('grupos.idUser', '=', auth()->user()->id)->select('grupos.nome')->get();
-
-        $encomendas = Encomenda::join('users', 'users.id', '=', 'Encomenda.idusers') 
-        ->where('Encomenda.idusers', auth()->user()->id)
-        ->select('Encomenda.id as id', 'Encomenda.nomeEncomenda as nomeEncomenda', 'Encomenda.codigoRastreio as codigoRastreio', 'Encomenda.dataInclusao as dataInclusao', 'Encomenda.emailContato as emailContato', 'Encomenda.grupoid as grupoid', 'Encomenda.eventos as eventos')->orderBy('Encomenda.dataInclusao', 'desc')->orderBy('Encomenda.nomeEncomenda', 'asc')->paginate(8); /* ->pagination(10); */
+        
 
         return view('encomendas.index', ['encomendas'=>$encomendas]);
     }
@@ -42,8 +54,16 @@ class EncomendasController extends Controller
     }
 
     public function destroy($id){
-        Encomenda::find($id)->delete();
-        return redirect()->route('encomendas');
+        try{
+            Encomenda::find($id)->delete();
+            $ret = array('status'=>200, 'msg'=>"null");
+        } catch(\Illuminate\Database\QueryException $e){
+            $ret = array('status'=>500, 'msg'=>$e->getMessage());
+        }
+        catch(\PDOException $e){
+            $ret = array('status'=>500, 'msg'=>$e->getMessage());
+        }
+        return $ret;
     }
 
     public function edit($id){

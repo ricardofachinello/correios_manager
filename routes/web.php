@@ -22,8 +22,9 @@ Rotas da API
 
 Auth::routes();
 Route::group(['middleware'=>'auth'], function() {
+    Route::get('/', function () {return redirect()->route('encomendas');});  
     Route::group(['prefix'=>'encomendas', 'where'=>['id'=>'[0-9]+']], function () {
-        Route::get('',             ['as'=>'encomendas',         'uses'=>'EncomendasController@index'  ]);
+        Route::any('',             ['as'=>'encomendas',         'uses'=>'EncomendasController@index'  ]);
         Route::get('create',       ['as'=>'encomendas.create',  'uses'=>'EncomendasController@create' ]);
         Route::post('store',       ['as'=>'encomendas.store',   'uses'=>'EncomendasController@store'  ]);
         Route::get('{id}/destroy', ['as'=>'encomendas.destroy', 'uses'=>'EncomendasController@destroy']);
@@ -31,7 +32,7 @@ Route::group(['middleware'=>'auth'], function() {
         Route::put('{id}/update',  ['as'=>'encomendas.update',  'uses'=>'EncomendasController@update' ]);
     });
     Route::group(['prefix'=>'grupos', 'where'=>['id'=>'[0-9]+']], function () {
-        Route::get('',             ['as'=>'grupos',         'uses'=>'GruposController@index'  ]);
+        Route::any('',             ['as'=>'grupos',         'uses'=>'GruposController@index'  ]);
         Route::get('create',       ['as'=>'grupos.create',  'uses'=>'GruposController@create' ]);
         Route::post('store',       ['as'=>'grupos.store',   'uses'=>'GruposController@store'  ]);
         Route::get('{id}/destroy', ['as'=>'grupos.destroy', 'uses'=>'GruposController@destroy']);
@@ -40,5 +41,4 @@ Route::group(['middleware'=>'auth'], function() {
     });
 });
 
-Route::get('/', function () {return view('home');});
 Route::get('home', function () {return redirect('encomendas');});

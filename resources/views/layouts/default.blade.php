@@ -13,16 +13,30 @@
             }).then(function(isConfirm){
                 if (isConfirm.value){
                     $.get('/'+ @yield('table-delete') +'/'+id+'/destroy', function(data){
-                        swal.fire(
-                            'Encomenda Removida',
-                            'Exclusão Confirmada',
-                            'success'
-                        ).then(function(){
-                            window.location.reload();
-                        });
+                        
+                        if(data.status == 200){
+                            swal.fire(
+                                'Encomenda Removida',
+                                'Exclusão Confirmada',
+                                'success'
+                            ).then(function(){
+                                location.reload();
+                            });
+                        }
+                        else{
+                            swal.fire(
+                                'Erro',
+                                'Não foi possível remover o Grupo',
+                                'error'
+                            ).then(function(){
+                                location.reload();
+                            });
+                        }
                     });
                 }
-            })
+            });
         }
     </script>
+
+
 @stop

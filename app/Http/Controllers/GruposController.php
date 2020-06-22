@@ -11,10 +11,19 @@ use Illuminate\Support\Facades\Http;
 
 class GruposController extends Controller
 {
-    public function index(){
-        $grupos = Grupo::join('users', 'users.id', '=', 'grupos.idUser')->where('grupos.idUser', auth()->user()->id)
-        ->select('grupos.id as id', 'grupos.nome as nome', 'grupos.descricao as descricao')->orderBy('nome')->paginate(8);
+    public function index(Request $filtro){
         
+        $filtragem = $filtro->get('desc_filtro');
+        if($filtragem == NULL){
+            $grupos = Grupo::join('users', 'users.id', '=', 'grupos.idUser')->where('grupos.idUser', auth()->user()->id)
+                ->select('grupos.id as id', 'grupos.nome as nome', 'grupos.descricao as descricao')->orderBy('nome')->paginate(8);
+        }else{
+            $grupos = Grupo::join('users', 'users.id', '=', 'grupos.idUser')->where('grupos.idUser', auth()->user()->id)
+                ->select('grupos.id as id', 'grupos.nome as nome', 'grupos.descricao as descricao')->orderBy('nome')
+                ->where('nome', 'like', '%'.$filtragem.'%')->orWhere('descricao', 'like', '%'.$filtragem.'%')->paginate(8); /* ->pagination(10); */
+            
+        }
+
         return view('grupos.index', ['grupos'=>$grupos]);
     }
 
@@ -30,8 +39,16 @@ class GruposController extends Controller
     }
 
     public function destroy($id){
-        Grupo::find($id)->delete();
-        return redirect()->route('grupos');
+        try{
+            Grupo::find($id)->delete();
+            $ret = array('status'=>200, 'msg'=>"null");
+        } catch(\Illuminate\Database\QueryException $e){
+            $ret = array('status'=>500, 'msg'=>$e->getMessage());
+        }
+        catch(\PDOException $e){
+            $ret = array('status'=>500, 'msg'=>$e->getMessage());
+        }
+        return $ret;
     }
 
     public function edit($id){
