@@ -12,8 +12,6 @@
         <tr>
 		    <td>{{ \App\Grupo::where('id', '=', $encomendas[0]->grupoid)->where('idUser', '=', auth()->user()->id)->pluck('nome')->first() }}</td>
           <td>{{ \App\Grupo::where('id', '=', $encomendas[0]->grupoid)->where('idUser', '=', auth()->user()->id)->pluck('descricao')->first() }}</td>
-          <td>
-          </td>
         </tr>
     </tbody>
   </table>

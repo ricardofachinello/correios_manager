@@ -9,7 +9,6 @@
       <th>Status</th>
       <th>Grupo</th>
       <th>Data de Inclusão</th>
-      <th>Ações</th>
     </thead>
     <tbody>
       @foreach($encomendas as $encomenda)
@@ -29,10 +28,6 @@
           {{\App\Grupo::where('id', '=', $encomenda->grupoid)->where('idUser', '=', auth()->user()->id)->pluck('nome')->first()}}
           </td>
           <td>{{ Carbon\Carbon::parse($encomenda->dataInclusao)->format('d/m/Y') }}</td>
-          <td>
-            <a href="{{ route('encomendas.edit', ['id'=>$encomendas[0]->id]) }}" class="btn-sm btn-success">Editar</a>
-            <a href="#" onClick="return ConfirmaExclusao({{$encomendas[0]->id}})" class="btn-sm btn-danger">Remover</a>
-          </td>
         </tr>
       @endforeach
     </tbody>
