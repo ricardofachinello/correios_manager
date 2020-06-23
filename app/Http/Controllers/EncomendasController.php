@@ -34,8 +34,6 @@ class EncomendasController extends Controller
             
         }
 
-        
-
         return view('encomendas.index', ['encomendas'=>$encomendas]);
     }
 

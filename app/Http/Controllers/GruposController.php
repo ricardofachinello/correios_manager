@@ -25,12 +25,19 @@ class GruposController extends Controller
         }else{
             $grupos = Grupo::join('users', 'users.id', '=', 'grupos.idUser')->where('grupos.idUser', auth()->user()->id)
                 ->select('grupos.id as id', 'grupos.nome as nome', 'grupos.descricao as descricao')->orderBy('nome')
-                ->where('nome', 'like', '%'.$filtragem.'%')->orWhere('descricao', 'like', '%'.$filtragem.'%')->paginate(8); /* ->pagination(10); */
-            
+                ->where('nome', 'like', '%'.$filtragem.'%')->orWhere('descricao', 'like', '%'.$filtragem.'%')->paginate(8); /* ->pagination(10); */   
         }
-        
         return view('grupos.index', ['grupos'=>$grupos]);
     }
+
+    public function detail($id){
+        
+        $encomendas =  Encomenda::where('Encomenda.idusers', auth()->user()->id)->where('Encomenda.grupoid', '=', $id)
+            ->select('Encomenda.id as id', 'Encomenda.nomeEncomenda as nomeEncomenda', 'Encomenda.codigoRastreio as codigoRastreio', 'Encomenda.dataInclusao as dataInclusao', 'Encomenda.emailContato as emailContato', 'Encomenda.grupoid as grupoid', 'Encomenda.eventos as eventos')
+            ->paginate(8); /* ->pagination(10); */
+
+    return view('grupos.detail', ['encomendas'=>$encomendas]);
+}
 
     public function create(){
         return view('grupos.create');

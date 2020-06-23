@@ -39,6 +39,7 @@ Route::group(['middleware'=>'auth'], function() {
         Route::get('create',       ['as'=>'grupos.create',  'uses'=>'GruposController@create' ]);
         Route::post('store',       ['as'=>'grupos.store',   'uses'=>'GruposController@store'  ]);
         Route::get('{id}/destroy', ['as'=>'grupos.destroy', 'uses'=>'GruposController@destroy']);
+        Route::get('{id}/detail',  ['as'=>'grupos.detail',  'uses'=>'GruposController@detail' ]);
         Route::get('{id}/edit',    ['as'=>'grupos.edit',    'uses'=>'GruposController@edit'   ]);
         Route::put('{id}/update',  ['as'=>'grupos.update',  'uses'=>'GruposController@update' ]);
     });
