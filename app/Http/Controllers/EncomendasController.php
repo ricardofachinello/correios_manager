@@ -23,12 +23,10 @@ class EncomendasController extends Controller
         
         $filtragem = $filtro->get('desc_filtro');
         if($filtragem == NULL){
-            $gruponome = Grupo::join('Encomenda', 'Encomenda.grupoid', '=', 'grupos.id')->where('grupos.idUser', '=', auth()->user()->id)->select('grupos.nome')->get();
             $encomendas = Encomenda::join('users', 'users.id', '=', 'Encomenda.idusers') 
                 ->where('Encomenda.idusers', auth()->user()->id)
                 ->select('Encomenda.id as id', 'Encomenda.nomeEncomenda as nomeEncomenda', 'Encomenda.codigoRastreio as codigoRastreio', 'Encomenda.dataInclusao as dataInclusao', 'Encomenda.emailContato as emailContato', 'Encomenda.grupoid as grupoid', 'Encomenda.eventos as eventos')->orderBy('Encomenda.dataInclusao', 'desc')->orderBy('Encomenda.nomeEncomenda', 'asc')->paginate(8); /* ->pagination(10); */
         }else{
-            $gruponome = Grupo::join('Encomenda', 'Encomenda.grupoid', '=', 'grupos.id')->where('grupos.idUser', '=', auth()->user()->id)->select('grupos.nome')->get();
             $encomendas = Encomenda::join('users', 'users.id', '=', 'Encomenda.idusers') 
                 ->where('Encomenda.idusers', auth()->user()->id)
                 ->select('Encomenda.id as id', 'Encomenda.nomeEncomenda as nomeEncomenda', 'Encomenda.codigoRastreio as codigoRastreio', 'Encomenda.dataInclusao as dataInclusao', 'Encomenda.emailContato as emailContato', 'Encomenda.grupoid as grupoid', 'Encomenda.eventos as eventos')->orderBy('Encomenda.dataInclusao', 'desc')->orderBy('Encomenda.nomeEncomenda', 'asc')
@@ -39,6 +37,15 @@ class EncomendasController extends Controller
         
 
         return view('encomendas.index', ['encomendas'=>$encomendas]);
+    }
+
+    public function detail($id){
+        
+            $encomendas =  Encomenda::where('Encomenda.idusers', auth()->user()->id)->where('Encomenda.id', '=', $id)
+                ->select('Encomenda.id as id', 'Encomenda.nomeEncomenda as nomeEncomenda', 'Encomenda.codigoRastreio as codigoRastreio', 'Encomenda.dataInclusao as dataInclusao', 'Encomenda.emailContato as emailContato', 'Encomenda.grupoid as grupoid', 'Encomenda.eventos as eventos')
+                ->paginate(8); /* ->pagination(10); */
+
+        return view('encomendas.detail', ['encomendas'=>$encomendas]);
     }
 
     public function create(){

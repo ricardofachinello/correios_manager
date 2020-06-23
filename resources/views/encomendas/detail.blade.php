@@ -1,17 +1,7 @@
 @extends('layouts.default')
 
 @section('content')
-  {!! Form::open(['name'=>'form_name', 'route'=>'encomendas']) !!}
-      <div class="sidebar-form" style="width:100%">
-          <div class="input-group" style="width:80%; margin:auto">
-              <input type="text" name="desc_filtro" class="form-control" style="width:80% !important;" placeholder="Pesquisar...">
-              <span class="input-group-btn">
-                  <button type="submit" name="search" id="search-btn" class="btn btn-default"><i class="fa fa-search"></i></button>
-              </span>
-          </div>
-      </div>
-  {!! Form::close() !!}
-  <h1>Encomendas</h1>
+  <h1>Encomenda {{ $encomendas[0]->nomeEncomenda }}</h1>
   <table class="table table-stripe table-bordered table-hover">
     <thead>
       <th>Título</th>
@@ -40,16 +30,34 @@
           </td>
           <td>{{ Carbon\Carbon::parse($encomenda->dataInclusao)->format('d/m/Y') }}</td>
           <td>
-            <a href="{{ route('encomendas.detail', ['id'=>$encomenda->id]) }}" class="btn-sm btn-info">Detalhes</a>
-            <a href="{{ route('encomendas.edit', ['id'=>$encomenda->id]) }}" class="btn-sm btn-success">Editar</a>
-            <a href="#" onClick="return ConfirmaExclusao({{$encomenda->id}})" class="btn-sm btn-danger">Remover</a>
+            <a href="{{ route('encomendas.edit', ['id'=>$encomendas[0]->id]) }}" class="btn-sm btn-success">Editar</a>
+            <a href="#" onClick="return ConfirmaExclusao({{$encomendas[0]->id}})" class="btn-sm btn-danger">Remover</a>
           </td>
         </tr>
       @endforeach
     </tbody>
   </table>
+  <h1>Detalhes da Encomenda  {{ $encomendas[0]->nomeEncomenda }}</h1>
+  <table class="table table-stripe table-bordered table-hover">
+    <thead>
+      <th>Data</th>
+      <th>Hora</th>
+      <th>Local</th>
+      <th>Status</th>
+    </thead>
+    <tbody>
+      @foreach(json_decode($encomendas[0]->eventos)->eventos as $encomendaEvento)
+      <tr>
+        <td>{{ $encomendaEvento->data }}</td>
+        <td>{{ $encomendaEvento->hora }}</td>
+        <td>{{ $encomendaEvento->local }}</td>
+        <td>{{ $encomendaEvento->status }}</td>
+      </tr>
+      @endforeach
+      </tbody>
+  </table>
   {{$encomendas->links()}}
-  <a href="{{ route('encomendas.create', []) }}" class="btn-sm btn-info">Adicionar</a>  
+
 @stop
 
 @section('table-delete')

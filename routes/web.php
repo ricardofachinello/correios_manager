@@ -30,6 +30,7 @@ Route::group(['middleware'=>'auth'], function() {
         Route::get('create',       ['as'=>'encomendas.create',  'uses'=>'EncomendasController@create' ]);
         Route::post('store',       ['as'=>'encomendas.store',   'uses'=>'EncomendasController@store'  ]);
         Route::get('{id}/destroy', ['as'=>'encomendas.destroy', 'uses'=>'EncomendasController@destroy']);
+        Route::get('{id}/detail',  ['as'=>'encomendas.detail',  'uses'=>'EncomendasController@detail' ]);
         Route::get('{id}/edit',    ['as'=>'encomendas.edit',    'uses'=>'EncomendasController@edit'   ]);
         Route::put('{id}/update',  ['as'=>'encomendas.update',  'uses'=>'EncomendasController@update' ]);
     });
