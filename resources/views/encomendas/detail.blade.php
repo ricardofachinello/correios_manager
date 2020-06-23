@@ -46,14 +46,33 @@
       <th>Status</th>
     </thead>
     <tbody>
-      @foreach(json_decode($encomendas[0]->eventos)->eventos as $encomendaEvento)
-      <tr>
-        <td>{{ $encomendaEvento->data }}</td>
-        <td>{{ $encomendaEvento->hora }}</td>
-        <td>{{ $encomendaEvento->local }}</td>
-        <td>{{ $encomendaEvento->status }}</td>
-      </tr>
-      @endforeach
+        @if($encomenda->eventos)
+            @if(json_decode($encomenda->eventos)->eventos)
+                @foreach(json_decode($encomendas[0]->eventos)->eventos as $encomendaEvento)
+                    <tr>
+                        <td>{{ $encomendaEvento->data }}</td>
+                        <td>{{ $encomendaEvento->hora }}</td>
+                        <td>{{ $encomendaEvento->local }}</td>
+                        <td>{{ $encomendaEvento->status }}</td>
+                    </tr>
+                @endforeach
+            @else
+                <tr>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>Objeto não postado</td>
+                </tr>
+            @endif
+            @else
+                <tr>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>Objeto não postado</td>
+                </tr>
+            @endif
+        
       </tbody>
   </table>
   {{$encomendas->links()}}
