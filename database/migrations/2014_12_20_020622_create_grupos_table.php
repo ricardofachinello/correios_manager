@@ -19,6 +19,7 @@ class CreateGruposTable extends Migration
             $table->string('nome',64)->nullable(false);
             $table->string('descricao',512);
             $table->timestamps();
+            $table->unique(array('idUser', 'nome'));
             $table->foreign('idUser')->references('id')->on('users');
         });
     }

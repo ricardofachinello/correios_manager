@@ -1,4 +1,4 @@
-@extends('layouts.default')
+@extends('layouts.defaultdetail')
 
 @section('content')
   <h1>Encomenda {{ $encomendas[0]->nomeEncomenda }}</h1>
@@ -9,6 +9,7 @@
       <th>Status</th>
       <th>Grupo</th>
       <th>Data de Inclusão</th>
+      <th>Ações</th>
     </thead>
     <tbody>
       @foreach($encomendas as $encomenda)
@@ -28,6 +29,10 @@
           {{\App\Grupo::where('id', '=', $encomenda->grupoid)->where('idUser', '=', auth()->user()->id)->pluck('nome')->first()}}
           </td>
           <td>{{ Carbon\Carbon::parse($encomenda->dataInclusao)->format('d/m/Y') }}</td>
+          <td>
+            <a href="{{ route('encomendas.edit', ['id'=>$encomenda->id]) }}" class="btn-sm btn-success">Editar</a>
+            <a href="#" onClick="return ConfirmaExclusao({{$encomenda->id}})" class="btn-sm btn-danger">Remover</a>
+          </td>
         </tr>
       @endforeach
     </tbody>

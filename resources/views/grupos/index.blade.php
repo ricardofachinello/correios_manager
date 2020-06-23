@@ -26,7 +26,9 @@
           <td>
           <a href="{{ route('grupos.detail', ['id'=>$grupo->id]) }}" class="btn-sm btn-info">Detalhes</a>
             <a href="{{ route('grupos.edit', ['id'=>$grupo->id]) }}" class="btn-sm btn-success">Editar</a>
+            @if($grupo->nome != 'Padrão')
             <a href="#" onClick="return ConfirmaExclusao({{$grupo->id}})" class="btn-sm btn-danger">Remover</a>
+            @endif
           </td>
         </tr>
       @endforeach

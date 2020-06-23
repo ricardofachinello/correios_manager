@@ -1,30 +1,34 @@
-@extends('layouts.default')
+@extends('layouts.defaultdetail')
 
 @section('content')
-
-  <h1>Detalhes do Grupo {{ \App\Grupo::where('id', '=', $encomendas[0]->grupoid)->where('idUser', '=', auth()->user()->id)->pluck('nome')->first() }}</h1>
+  <h1>Detalhes do Grupo {{ \App\Grupo::where('id', '=', $grupoid)->where('idUser', '=', auth()->user()->id)->pluck('nome')->first() }}</h1>
   <table class="table table-stripe table-bordered table-hover">
     <thead>
       <th>Nome</th>
       <th>Descrição</th>
+      <th>Ações</th>
     </thead>
     <tbody>
         <tr>
-		    <td>{{ \App\Grupo::where('id', '=', $encomendas[0]->grupoid)->where('idUser', '=', auth()->user()->id)->pluck('nome')->first() }}</td>
-          <td>{{ \App\Grupo::where('id', '=', $encomendas[0]->grupoid)->where('idUser', '=', auth()->user()->id)->pluck('descricao')->first() }}</td>
+		    <td>{{ \App\Grupo::where('id', '=', $grupoid)->where('idUser', '=', auth()->user()->id)->pluck('nome')->first() }}</td>
+          <td>{{ \App\Grupo::where('id', '=', $grupoid)->where('idUser', '=', auth()->user()->id)->pluck('descricao')->first() }}</td>
+        <td>
+          <a href="{{ route('grupos.edit', ['id'=>\App\Grupo::where('id', '=', $grupoid)->where('idUser', '=', auth()->user()->id)->pluck('id')->first()]) }}" class="btn-sm btn-success">Editar</a>
+          <a href="#" onClick="return ConfirmaExclusao({{\App\Grupo::where('id', '=', $grupoid)->where('idUser', '=', auth()->user()->id)->pluck('id')->first()}})" class="btn-sm btn-danger">Remover</a>
+        </td>
         </tr>
     </tbody>
   </table>
-  <h1>Encomendas do Grupo  {{ \App\Grupo::where('id', '=', $encomendas[0]->grupoid)->where('idUser', '=', auth()->user()->id)->pluck('nome')->first() }}</h1>
+  <h1>Encomendas do Grupo  {{ \App\Grupo::where('id', '=', $grupoid)->where('idUser', '=', auth()->user()->id)->pluck('nome')->first() }}</h1>
   <table class="table table-stripe table-bordered table-hover">
     <thead>
       <th>Título</th>
       <th>Código de Rastreio</th>
       <th>Status</th>
-      <th>Grupo</th>
       <th>Data de Inclusão</th>
       <th>Ações</th>
     </thead>
+    @if($encomendas[0])
     <tbody>
       @foreach($encomendas as $encomenda)
         <tr>
@@ -39,9 +43,6 @@
           @else
             <td>Objeto não postado</td>
           @endif
-          <td>
-          {{ \App\Grupo::where('id', '=', $encomendas[0]->grupoid)->where('idUser', '=', auth()->user()->id)->pluck('nome')->first() }}
-          </td>
           <td>{{ Carbon\Carbon::parse($encomenda->dataInclusao)->format('d/m/Y') }}</td>
           <td>
             <a href="{{ route('encomendas.detail', ['id'=>$encomenda->id]) }}" class="btn-sm btn-info">Detalhes</a>
@@ -52,6 +53,15 @@
       @endforeach
     </tbody>
   </table>
+  @else
+  <tr>
+    <td>-</td>
+    <td>-</td>
+    <td>-</td>
+    <td>-</td>
+    <td></td>
+  <tr>
+  @endif
   {{$encomendas->links()}}
 
 @stop

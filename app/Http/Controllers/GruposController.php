@@ -36,7 +36,7 @@ class GruposController extends Controller
             ->select('Encomenda.id as id', 'Encomenda.nomeEncomenda as nomeEncomenda', 'Encomenda.codigoRastreio as codigoRastreio', 'Encomenda.dataInclusao as dataInclusao', 'Encomenda.emailContato as emailContato', 'Encomenda.grupoid as grupoid', 'Encomenda.eventos as eventos')
             ->paginate(8); /* ->pagination(10); */
 
-    return view('grupos.detail', ['encomendas'=>$encomendas]);
+    return view('grupos.detail', ['encomendas'=>$encomendas,'grupoid'=>$id]);
 }
 
     public function create(){
