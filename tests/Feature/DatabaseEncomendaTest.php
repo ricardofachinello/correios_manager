@@ -36,7 +36,8 @@ class DatabaseEncomendaTeste extends TestCase
 
         Encomenda::create($data);
 
-        sleep(10);
+        /*sleep(10);
+        */
         
 
         $this->assertDatabaseHas('Encomenda', $data);

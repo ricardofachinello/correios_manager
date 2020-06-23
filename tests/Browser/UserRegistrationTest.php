@@ -27,8 +27,8 @@ class ExampleTest extends DuskTestCase
             ->assertSee('Encomendas');
         });
 
-        sleep(10);
-        
+        /*sleep(10);
+        */
 
         $userID = DB::table('users')->where('email', 'teste@testemail.com')->value('id');
         DB::Table('grupos')->where('idUser', $userID)->delete();
