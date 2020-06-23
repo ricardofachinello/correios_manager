@@ -8,6 +8,7 @@ use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\DB;
 use Tests\TestCase;
+use App\Encomenda;
 
 class DatabaseEncomendaTeste extends TestCase
 {
@@ -19,22 +20,30 @@ class DatabaseEncomendaTeste extends TestCase
     public function testEncomenda()
     {
         $this->assertDatabaseHas('users', [
-            'name' => 'Ricardo Fachinello',
+            'name' => 'RICARDO MATHEUS FACHINELLO',
         ]);
 
-        $user = DB::table('users')->where('name', 'Ricardo Fachinello')->value('id');
+        $user = DB::table('users')->where('name', 'RICARDO MATHEUS FACHINELLO')->value('id');
+        $grupo = DB::table('grupos')->where('nome', 'Padrão')->where('idUser', $user)->value('id');
 
         $data = ['idusers' => $user,
             'codigoRastreio' => 'zz123456789zz',
             'nomeEncomenda' => 'Teste',
             'dataInclusao' => '2020-01-01',
-            'emailContato' => 'teste@outroteste.com'
+            'emailContato' => 'teste@outroteste.com',
+            'grupoid' => $grupo,
         ];
 
-        DB::table('Encomenda')->insert($data);
+        Encomenda::create($data);
+
+        sleep(10);
+        
 
         $this->assertDatabaseHas('Encomenda', $data);
 
-        DB::table('Encomenda')->where('codigoRastreio', 'zz123456789zz')->delete();  
+        $remover = DB::table('Encomenda')->where('codigoRastreio', 'zz123456789zz')->value('id');  
+
+        Encomenda::find($remover)->delete();
+
     }
 }

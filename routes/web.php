@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Mail\MailtrapExample;
+use Illuminate\Support\Facades\Mail;
 
 /*
 |--------------------------------------------------------------------------
@@ -42,3 +44,8 @@ Route::group(['middleware'=>'auth'], function() {
 });
 
 Route::get('home', function () {return redirect('encomendas');});
+
+Route::get('/send-mail', function () {
+    Mail::to('ricardomatheu@hotmail.com')->send(new MailNotifica()); 
+    return 'A message has been sent to Mailtrap!';
+});

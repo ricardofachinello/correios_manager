@@ -16,7 +16,7 @@
                         
                         if(data.status == 200){
                             swal.fire(
-                                'Encomenda Removida',
+                                'Remoção Realizada',
                                 'Exclusão Confirmada',
                                 'success'
                             ).then(function(){

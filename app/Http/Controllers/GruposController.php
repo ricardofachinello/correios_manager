@@ -9,6 +9,11 @@ use App\Http\Requests\GrupoRequest;
 
 use Illuminate\Support\Facades\Http;
 
+use App\Mail\MailNotifica;
+
+use Illuminate\Mail\Mailable;
+use Illuminate\Support\Facades\Mail;
+
 class GruposController extends Controller
 {
     public function index(Request $filtro){
@@ -23,7 +28,7 @@ class GruposController extends Controller
                 ->where('nome', 'like', '%'.$filtragem.'%')->orWhere('descricao', 'like', '%'.$filtragem.'%')->paginate(8); /* ->pagination(10); */
             
         }
-
+        
         return view('grupos.index', ['grupos'=>$grupos]);
     }
 

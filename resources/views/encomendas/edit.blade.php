@@ -25,7 +25,7 @@
         {!! Form::label('grupoid', 'Grupo: ') !!}
         {!! Form::select('grupoid',
                           \App\Grupo::where('idUser', '=', auth()->user()->id)->pluck('nome','id')->toArray(),
-                          \App\Grupo::where('idUser', '=', auth()->user()->id)->where('nome', '=', 'Padrão')->pluck('nome','id')->toArray(), ['class'=>'form-control', 'required']) !!}
+                          \App\Grupo::where('id', '=', $encomenda->grupoid)->pluck('nome','id')->toArray(), ['class'=>'form-control', 'required']) !!}
     </div>
 
     <div hidden class="form-group">
