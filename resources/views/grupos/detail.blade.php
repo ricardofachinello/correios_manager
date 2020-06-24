@@ -13,8 +13,8 @@
 		    <td>{{ \App\Grupo::where('id', '=', $grupoid)->where('idUser', '=', auth()->user()->id)->pluck('nome')->first() }}</td>
           <td>{{ \App\Grupo::where('id', '=', $grupoid)->where('idUser', '=', auth()->user()->id)->pluck('descricao')->first() }}</td>
         <td>
-          <a href="{{ route('grupos.edit', ['id'=>\App\Grupo::where('id', '=', $grupoid)->where('idUser', '=', auth()->user()->id)->pluck('id')->first()]) }}" class="btn-sm btn-success">Editar</a>
-          <a href="#" onClick="return ConfirmaExclusao({{\App\Grupo::where('id', '=', $grupoid)->where('idUser', '=', auth()->user()->id)->pluck('id')->first()}})" class="btn-sm btn-danger">Remover</a>
+          <a href="{{ route('grupos.edit', ['id'=>$grupoid]) }}" class="btn-sm btn-success">Editar</a>
+          <a href="#" onClick="return ConfirmaExclusao({{$grupoid}})" class="btn-sm btn-danger">Remover</a>
         </td>
         </tr>
     </tbody>

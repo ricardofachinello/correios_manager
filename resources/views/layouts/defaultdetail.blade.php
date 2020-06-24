@@ -12,6 +12,7 @@
                 cancelButtonText: 'Nope', closeOnConfirm: false,
             }).then(function(isConfirm){
                 if (isConfirm.value){
+                    
                     $.get('/'+ @yield('table-delete') +'/'+id+'/destroy', function(data){
                         
                         if(data.status == 200){

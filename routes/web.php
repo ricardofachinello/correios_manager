@@ -36,13 +36,14 @@ Route::group(['middleware'=>'auth'], function() {
         Route::put('{id}/update',               ['as'=>'encomendas.update',  'uses'=>'EncomendasController@update' ]);
     });
     Route::group(['prefix'=>'grupos', 'where'=>['id'=>'[0-9]+']], function () {
-        Route::any('',             ['as'=>'grupos',         'uses'=>'GruposController@index'  ]);
-        Route::get('create',       ['as'=>'grupos.create',  'uses'=>'GruposController@create' ]);
-        Route::post('store',       ['as'=>'grupos.store',   'uses'=>'GruposController@store'  ]);
-        Route::get('{id}/destroy', ['as'=>'grupos.destroy', 'uses'=>'GruposController@destroy']);
-        Route::get('{id}/detail',  ['as'=>'grupos.detail',  'uses'=>'GruposController@detail' ]);
-        Route::get('{id}/edit',    ['as'=>'grupos.edit',    'uses'=>'GruposController@edit'   ]);
-        Route::put('{id}/update',  ['as'=>'grupos.update',  'uses'=>'GruposController@update' ]);
+        Route::any('',                          ['as'=>'grupos',         'uses'=>'GruposController@index'  ]);
+        Route::get('create',                    ['as'=>'grupos.create',  'uses'=>'GruposController@create' ]);
+        Route::post('store',                    ['as'=>'grupos.store',   'uses'=>'GruposController@store'  ]);
+        Route::get('{id}/destroy',              ['as'=>'grupos.destroy', 'uses'=>'GruposController@destroy']);
+        Route::get('{any}/detail/{id}/destroy', ['as'=>'grupos.destroy', 'uses'=>'GruposController@destroy']);
+        Route::get('{id}/detail',               ['as'=>'grupos.detail',  'uses'=>'GruposController@detail' ]);
+        Route::get('{id}/edit',                 ['as'=>'grupos.edit',    'uses'=>'GruposController@edit'   ]);
+        Route::put('{id}/update',               ['as'=>'grupos.update',  'uses'=>'GruposController@update' ]);
     });
 });
 

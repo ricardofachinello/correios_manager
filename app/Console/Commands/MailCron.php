@@ -50,13 +50,12 @@ class MailCron extends Command
          */
         $encomendas = Encomenda::all();
         foreach($encomendas as $encomenda){
-            sleep(1);
+            sleep(6);
             $status = Http::get('https://api.linketrack.com/track/json?user=teste&token=1abcd00b2731640e886fb41a8a9671ad1434c599dbaa0a0de9a5aa619f29a83f&codigo='.$encomenda->codigoRastreio)
             ->json();
             if($status and $status!=$encomenda->eventos){
                 $encomenda->eventos = $status;
                 $encomenda->save();
-                Mail::to($encomenda->emailContato)->send(new MailNotifica());
             }
         }
 
